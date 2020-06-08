@@ -60,7 +60,7 @@ class App extends Component {
 
 		try {
 			fetch(
-				`https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&page=${page}&apiKey=4ffe6ce3296a421fb417513afaa5f938`
+				`https://newsapi.org/v2/top-headlines?country=${country}&category=${category}&page=${page}&apiKey=${process.env.REACT_APP_NEWS_API_KEY}`
 			)
 				.then((res) => {
 					if (!res.ok) {
@@ -92,18 +92,23 @@ class App extends Component {
 					});
 				});
 		} catch (err) {
+			this.setState({
+				err: true,
+				isFetching: false,
+				isFetchingBtn: false,
+			});
 			console.log(err);
 		}
 	};
 
 	checkScroll = () => {
-		const { hasMore } = this.state;
+		const { hasMore, page } = this.state;
 		if (
 			window.innerHeight + document.documentElement.scrollTop ===
 				document.documentElement.offsetHeight &&
 			hasMore
 		) {
-			this.getNews(this.state.page);
+			this.getNews(page);
 		}
 	};
 	componentDidMount() {
@@ -128,7 +133,6 @@ class App extends Component {
 		return (
 			<ThemeProvider theme={theme}>
 				<GlobalStyles />
-
 				<Header />
 				<Wrapper>
 					<SubHeader

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import styled, { keyframes, css } from 'styled-components';
 import Loading from './Load';
 const pulse = keyframes`

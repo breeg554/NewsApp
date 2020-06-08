@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 const Wrapper = styled.header`
 	color: #fff;
 	width: 100%;
+
 	padding: 1rem;
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	background-color: ${({ theme }) => theme.colors.primaryBlue};
 	h1 {

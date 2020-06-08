@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { FiChevronDown } from 'react-icons/fi';
 const CustomSelect = styled.div`
@@ -67,11 +67,30 @@ const Button = styled.button`
 			rotate(${({ isOpen }) => (isOpen ? '180deg' : 0)});
 	}
 `;
+const handleOutsiteClickCheck = (wrapperRef, isOpen, setOpen) => {
+	useEffect(() => {
+		const handleClickOutsite = (e) => {
+			if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
+				setOpen(false);
+			}
+		};
+
+		document.addEventListener('click', handleClickOutsite);
+
+		return () => {
+			document.removeEventListener('click', handleClickOutsite);
+		};
+	}, [wrapperRef]);
+};
 const Select = ({ data, type, dataType, setOptions }) => {
+	const wrapperRef = useRef(null);
 	const [isOpen, setOpen] = useState(false);
 	const selected = data.find((el) => el.short === type);
+
+	handleOutsiteClickCheck(wrapperRef, isOpen, setOpen);
+
 	return (
-		<CustomSelect>
+		<CustomSelect ref={wrapperRef}>
 			<Button onClick={() => setOpen(!isOpen)} isOpen={isOpen}>
 				{selected.name}
 				<span>
